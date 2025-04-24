@@ -16,7 +16,7 @@ This repository contains my solution to the "Sentence Transformers & Multi-Task 
   - Analysis of different parameter freezing strategies
   - Transfer learning approach recommendations
   
-- **Task 4**: Training Loop Implementation (BONUS)
+- **Task 4**: Training Loop Implementation
   - Full training loop for multi-task learning
   - Handles task balancing, loss computation, and evaluation metrics
 
