@@ -1,6 +1,6 @@
-Task 3: Training Considerations
+### Task 3: Training Considerations
 Freezing Scenarios Analysis
-1. Entire Network Frozen
+#### 1. Entire Network Frozen
 Implications and Advantages:
 
 Zero Learning: The model becomes a fixed feature extractor with no parameter updates.
@@ -20,7 +20,7 @@ You need absolute consistency in predictions
 You're dealing with extreme computational constraints
 You want to establish a performance baseline before fine-tuning
 
-2. Only Transformer Backbone Frozen
+#### 2. Only Transformer Backbone Frozen
 Implications and Advantages:
 
 Representational Stability: Core language representations remain fixed while task-specific heads adapt.
@@ -41,7 +41,7 @@ You want to avoid overfitting
 Computational resources are limited
 Quick iteration is needed
 
-3. One Task-Specific Head Frozen
+#### 3. One Task-Specific Head Frozen
 Implications and Advantages:
 
 Knowledge Transfer: The frozen head can guide the learning of the other head through shared encoder.
@@ -60,8 +60,8 @@ You want to incrementally add tasks without disrupting existing capabilities
 The frozen task serves as a regularizer for the unfrozen task
 One task has significantly less training data than the other
 
-Transfer Learning Approach
-1. Choice of Pre-trained Model
+### Transfer Learning Approach
+#### 1. Choice of Pre-trained Model
 I recommend using NovaSearch/stella_en_1.5B_v5 as our pre-trained model for these reasons:
 
 Strong performance on the MTEB benchmark, indicating high-quality sentence embeddings
@@ -69,7 +69,7 @@ Reasonable size (1.5B parameters) balancing performance and computational effici
 Optimized for sentence-level tasks, aligning well with our classification objectives
 Support for multiple embedding dimensions, allowing flexibility in the feature space
 
-2. Layered Freezing/Unfreezing Strategy
+#### 2. Layered Freezing/Unfreezing Strategy
 I propose a progressive unfreezing approach:
 Stage 1: Task-Specific Head Training
 
@@ -90,12 +90,16 @@ Apply graduated learning rates to different layers (lower for early layers, high
 Unfreeze more layers progressively
 Purpose: Allow deeper adaptation while preventing catastrophic forgetting
 
-Stage 4 (Optional): Full Fine-tuning
+Stage 4: Full Fine-tuning
 
 Unfreeze all parameters with very small learning rate
 Purpose: Final optimization if computational resources allow
 
-3. Rationale for This Approach
+Stage 5: LORA/QLORA Fine-tuning
+
+Make changes to some of the parameters
+
+#### 3. Rationale for This Approach
 This progressive unfreezing strategy is optimal because:
 
 Parameter Efficiency: Initially training only task-specific heads (few parameters) achieves quick adaptation.
